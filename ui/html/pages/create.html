@@ -1,0 +1,15 @@
+{{define "title"}}Create a new Test{{end}}
+{{define "main"}}
+<form action="/user/test/create" method="post" novalidate>
+    <div>
+        <label >Subject:</label>
+        <input type="text" name="subject">
+    </div>
+    <div><label >Marks:</label>
+    <input type="number" name="marks" >
+</div>
+<div>
+    <input type="submit" value="Create Test">
+</div>
+</form>
+{{end}}
