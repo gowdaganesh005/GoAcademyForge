@@ -1,15 +1,26 @@
-{{define "title"}}Test {{.ID}}{{end}} 
+{{define "title"}}Test #{{.Test.ID}}{{end}} 
  
 {{define "main"}} 
+{{with .Test}}
     <div class='snippet'> 
         <div class='metadata'> 
-            <strong>{{.Title}}</strong> 
-            <span>#{{.ID}}</span> 
+            <strong>Subject:{{.Subject}}</strong> 
+            <span>{{.Testtype}}</span> 
         </div> 
-        <pre><code>{{.Content}}</code></pre> 
-        <div class='metadata'> 
-            <time>Created: {{.Created}}</time> 
-            <time>Expires: {{.Expires}}</time> 
-        </div> 
+        <pre><code>Marks Scored: <strong> {{.Marks}}</strong></code></pre> 
+        <pre><code>Total Marks :  <strong>{{.Totalmarks}}</strong></code></pre>
+        {{end}}
+        <pre><code>Percentage  :  <strong>{{.Percentage}}%</strong></code></pre> 
+        
+        <div class='snippet'> 
+            <div class='metadata'> 
+                Remarks:<strong>{{.Remarks}}</strong> 
+                 
+            </div> 
+            <div class='metadata'> 
+                <time>Created: {{.Test.Created}}</time> 
+                 
+            </div> 
     </div> 
+    
 {{end}}

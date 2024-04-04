@@ -1,0 +1,28 @@
+{{define "title"}}Home{{end}}
+
+
+{{define "main"}}
+
+
+<h2>Past Tests</h2> 
+{{if .Tests}} 
+ <table> 
+    <tr> 
+        <th>Subject</th> 
+        <th>Marks Scored</th> 
+        <th>Total Marks</th> 
+        <th>Type</th> 
+    </tr> 
+    {{range .Tests}} 
+    <tr> 
+        <td><a href='/test/view/{{.ID}}'>{{.Subject}}</a></td> 
+        <td>{{.Marks}}</td> 
+        <td>{{.Totalmarks}}</td>
+        <td>{{.Testtype}}</td> 
+    </tr> 
+    {{end}} 
+</table> 
+{{else}} 
+    <p>There's nothing to see here... yet!</p> 
+{{end}} 
+{{end}}

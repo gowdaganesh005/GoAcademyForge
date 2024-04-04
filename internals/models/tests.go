@@ -32,21 +32,41 @@ func (t *TestModel) Insert(subject string, ttype int, marks float64, total float
 
 }
 func (t *TestModel) Get(id int) (*Test, error) {
-	stmt:="SELECT * FROM test where id=?"
-	row:=t.DB.QueryRow(stmt,id)
-	te:=&Test{}
-	err:=row.Scan(&te.ID,&te.Subject,&te.Testtype,&te.Marks,&te.Totalmarks)
-if err != nil {
-	if errors.Is(err,sql.ErrNoRows) {
-		return nil,ErrnoRecord
-	}else{
-		return nil,err
+	stmt := "SELECT * FROM test where id=?"
+	row := t.DB.QueryRow(stmt, id)
+	te := &Test{}
+	err := row.Scan(&te.ID, &te.Subject, &te.Testtype, &te.Marks, &te.Totalmarks, &te.Created)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrnoRecord
+		} else {
+			return nil, err
 
+		}
 	}
-}
-return te,nil
+	return te, nil
 }
 func (t *TestModel) Latest() ([]*Test, error) {
-	return nil, nil
+	stmt := "SELECT * FROM test ORDER BY id DESC LIMIT 10"
+
+	rows,err := t.DB.Query(stmt)
+	if err != nil {
+		return nil,err
+	}
+	defer rows.Close()
+	tests:=[]*Test{}
+
+	for rows.Next(){
+		s:=&Test{}
+		err:=rows.Scan(&s.ID, &s.Subject, &s.Testtype, &s.Marks, &s.Totalmarks, &s.Created)
+		if err != nil {
+			return nil, err
+		}
+		tests=append(tests,s)
+	}
+	if err=rows.Err();err!=nil{
+		return nil,err
+	}
+	return tests, nil
 
 }

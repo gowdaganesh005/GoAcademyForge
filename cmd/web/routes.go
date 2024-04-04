@@ -19,10 +19,10 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodPost, "/user/login", app.home)
 	router.HandlerFunc(http.MethodPost, "/user/logout", app.home)
 
-	router.HandlerFunc(http.MethodGet, "/academy/test", app.home)
-	router.HandlerFunc(http.MethodGet, "/academy/test/id", app.home)
-	router.HandlerFunc(http.MethodGet, "/test/create", app.home)
-	router.HandlerFunc(http.MethodPost, "/test/create", app.testCreate)
+	router.HandlerFunc(http.MethodGet, "/test/home", app.testhome)
+	router.HandlerFunc(http.MethodGet, "/test/view/:id", app.testView)
+	router.HandlerFunc(http.MethodGet, "/test/create", app.testCreate)
+	router.HandlerFunc(http.MethodPost, "/test/create", app.testcreatePost)
 
 	router.HandlerFunc(http.MethodGet, "/academy/reminders", app.home)
 	router.HandlerFunc(http.MethodGet, "/academy/reminders/id", app.home)
@@ -39,6 +39,6 @@ func (app *application) routes() http.Handler {
 	router.HandlerFunc(http.MethodGet, "/academy/attendance/create", app.home)
 	router.HandlerFunc(http.MethodPost, "/academy/attendance/create", app.home)
 
-	return router
+	return app.logRequest(router)
 
 }

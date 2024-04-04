@@ -1,13 +1,38 @@
 {{define "title"}}Create a new Test{{end}}
 {{define "main"}}
-<form action="/user/test/create" method="post" novalidate>
+<form action="/test/create" method="post" novalidate>
     <div>
         <label >Subject:</label>
-        <input type="text" name="subject">
+        <select name="subject">
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            
+        </select>
     </div>
+    <div><label >Type of Test:</label>
+        {{with .Form.FieldErrors.testtype}} 
+            <label class='error'>{{.}}</label> 
+        {{end}} 
+        <input type='radio' name='testtype' value='1'{{if (eq .Form.Testtype 1)}} checked{{end}}> 1st CIE 
+        <input type='radio' name='testtype' value='2'{{if (eq .Form.Testtype 2)}} checked{{end}}> 2nd CIE
+        <input type='radio' name='testtype' value='3'{{if (eq .Form.Testtype 3)}} checked{{end}}> AAT 
+        <input type='radio' name='testtype' value='4'{{if (eq .Form.Testtype 4)}} checked{{end}}> SEE
+        </div>
+        
     <div><label >Marks:</label>
-    <input type="number" name="marks" >
+        {{with .Form.FieldErrors.marks}} 
+            <label class='error'>{{.}}</label> 
+        {{end}}
+    <input type="number" name="marks" value="0" >
 </div>
+<div><label >Total Marks:</label>
+    {{with .Form.FieldErrors.totalmarks}} 
+            <label class='error'>{{.}}</label> 
+        {{end}}
+    <input type="number" name="totalmarks" value="0" >
+</div>
+
 <div>
     <input type="submit" value="Create Test">
 </div>

@@ -3,18 +3,22 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/go-playground/form/v4"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gowdaganesh005/GoAcademyForge/internals/models"
 )
 
 type application struct {
-	infolog  *log.Logger
-	errorlog *log.Logger
-	test     *models.TestModel
+	infolog       *log.Logger
+	errorlog      *log.Logger
+	test          *models.TestModel
+	templateCache map[string]*template.Template
+	formdecoder   *form.Decoder
 }
 
 func main() {
@@ -31,10 +35,17 @@ func main() {
 	}
 	defer db.Close()
 
+	templateCache, err := newtemplateCache()
+	if err != nil {
+		errorlog.Fatal(err)
+	}
+	formdecoder := form.NewDecoder()
 	app := &application{
-		infolog:  infolog,
-		errorlog: errorlog,
-		test:     &models.TestModel{DB: db},
+		infolog:       infolog,
+		errorlog:      errorlog,
+		test:          &models.TestModel{DB: db},
+		templateCache: templateCache,
+		formdecoder:   formdecoder,
 	}
 
 	srv := http.Server{
