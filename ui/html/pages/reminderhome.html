@@ -1,0 +1,29 @@
+{{define "title"}}Reminders Home{{end}}
+
+
+{{define "main"}}
+
+
+<h2>Your Reminders</h2> 
+{{if .Reminders}} 
+ <table> 
+    <tr> 
+        <th>ID</th> 
+        <th>Title</th> 
+        <th>Deadline</th> 
+        <th>Created</th> 
+    </tr> 
+    {{range .Reminders}} 
+    <tr> 
+        <td><a href='/reminder/view/{{.ID}}'>{{.ID}}</a></td> 
+        <td><a href='/reminder/view/{{.ID}}'>{{.Title}}</a></td> 
+        <td>{{.Deadline}}</td> 
+        <td>{{.Created}}</td>
+        
+    </tr> 
+    {{end}} 
+</table> 
+{{else}} 
+    <p>There's nothing to see here... yet!</p> 
+{{end}} 
+{{end}}

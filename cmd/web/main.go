@@ -7,6 +7,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
+
+	"github.com/alexedwards/scs/mysqlstore"
+	"github.com/alexedwards/scs/v2"
 
 	"github.com/go-playground/form/v4"
 	_ "github.com/go-sql-driver/mysql"
@@ -17,8 +21,14 @@ type application struct {
 	infolog       *log.Logger
 	errorlog      *log.Logger
 	test          *models.TestModel
+	reminder      *models.RemModel
+	attendance    *models.AtModel
+	expense       *models.ExpModel
 	templateCache map[string]*template.Template
 	formdecoder   *form.Decoder
+	users         *models.UserModel
+
+	sessionManager *scs.SessionManager
 }
 
 func main() {
@@ -40,12 +50,20 @@ func main() {
 		errorlog.Fatal(err)
 	}
 	formdecoder := form.NewDecoder()
+	sessionManager := scs.New()
+	sessionManager.Store = mysqlstore.New(db)
+	sessionManager.Lifetime = 12 * time.Hour
 	app := &application{
-		infolog:       infolog,
-		errorlog:      errorlog,
-		test:          &models.TestModel{DB: db},
-		templateCache: templateCache,
-		formdecoder:   formdecoder,
+		infolog:        infolog,
+		errorlog:       errorlog,
+		test:           &models.TestModel{DB: db},
+		reminder:       &models.RemModel{DB: db},
+		expense:        &models.ExpModel{DB: db},
+		attendance:     &models.AtModel{DB: db},
+		users:          &models.UserModel{DB: db},
+		templateCache:  templateCache,
+		formdecoder:    formdecoder,
+		sessionManager: sessionManager,
 	}
 
 	srv := http.Server{

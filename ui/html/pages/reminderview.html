@@ -1,0 +1,21 @@
+{{define "title"}}Reminder #{{.Reminder.ID}}{{end}} 
+ 
+{{define "main"}} 
+{{with .Reminder}}
+    <div class='snippet'> 
+        <div class='metadata'> 
+            <strong>Reminder:{{.Title}}</strong> 
+            <span>{{.ID}}</span> 
+        </div> 
+        <div class='metadata'> 
+            <time><strong>Deadline: {{.Deadline}}</strong></time> 
+             
+        </div> 
+            <div class='metadata'> 
+                <time>Created: {{.Created}}</time> 
+                 
+            </div> 
+    </div> 
+    {{end}}
+    
+{{end}}

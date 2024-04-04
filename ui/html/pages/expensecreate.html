@@ -1,0 +1,31 @@
+{{define "title"}}Create a new Test{{end}}
+{{define "main"}}
+<form action="/expense/create" method="post" novalidate>
+    <div>
+        <label >Category:</label>
+        <select name="category">
+            <option value="Stationary">Stationary</option>
+            <option value="College Clubs">Clubs</option>
+            <option value="Meals">Meals</option>
+            <option value="Clothes">Clothes</option>
+            
+        </select>
+    </div>
+   <div><label >Description:</label><textarea name="description" >{{if  .Form.Description.Valid }}{{.Description}} {{else}}Nil {{end}}</textarea></div>
+        
+    <div><label >Amount:</label>
+        {{with .Form.FieldErrors.amount}} 
+            <label class='error'>{{.}}</label> 
+        {{end}}
+    <input type="number" name="amount"  >
+</div>
+<div>
+    <label>Date:</label>
+    <input type="datetime-local" name="date">
+</div>
+
+<div>
+    <input type="submit" value="Create Expense">
+</div>
+</form>
+{{end}}

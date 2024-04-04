@@ -1,0 +1,28 @@
+{{define "title"}}Attendance{{end}}
+
+
+{{define "main"}}
+
+
+<h2>Attendance</h2> 
+{{if .Attendances}} 
+ <table> 
+    <tr> 
+        <th>Subject</th> 
+        <th>Attended</th> 
+        <th>Total Classes</th> 
+        
+    </tr> 
+    {{range .Attendances}} 
+    <tr> 
+        <td><a href='/attendance/view/{{.ID}}'>{{.Subject}}</a></td> 
+        <td>{{.Attended}}</td> 
+        <td>{{.TotalClasses}}</td>
+        <td><time>UpdatedAt: {{.UpdatedAt}}</time></td> 
+    </tr> 
+    {{end}} 
+</table> 
+{{else}} 
+    <p>There's nothing to see here... yet!</p> 
+{{end}} 
+{{end}}

@@ -5,7 +5,7 @@
     <div class='snippet'> 
         <div class='metadata'> 
             <strong>Subject:{{.Subject}}</strong> 
-            <span>{{.Testtype}}</span> 
+            <span>{{if eq .Testtype 1}}CIE 1{{else}}{{if eq .Testtype 2}}CIE 2{{else}}{{if eq .Testtype 3}}AAT{{else}}{{if eq .Testtype 4}}SEE{{end}}{{end}}{{end}}{{end}}</span> 
         </div> 
         <pre><code>Marks Scored: <strong> {{.Marks}}</strong></code></pre> 
         <pre><code>Total Marks :  <strong>{{.Totalmarks}}</strong></code></pre>

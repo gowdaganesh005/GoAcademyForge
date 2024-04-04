@@ -1,0 +1,32 @@
+{{define "title"}}Add A New Attendance{{end}}
+{{define "main"}}
+<form action="/attendance/create" method="post" novalidate>
+    <div>
+        <label >Subject:</label>
+        <select name="subject">
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            
+        </select>
+    </div>
+    
+        
+    <div><label >Attended Classes:</label>
+        {{with .Form.FieldErrors.attended}} 
+            <label class='error'>{{.}}</label> 
+        {{end}}
+    <input type="number" name="attended" value="0" >
+</div>
+<div><label >Total Classes:</label>
+    {{with .Form.FieldErrors.totalclasses}} 
+            <label class='error'>{{.}}</label> 
+        {{end}}
+    <input type="number" name="totalclasses" value="0" >
+</div>
+
+<div>
+    <input type="submit" value="Create">
+</div>
+</form>
+{{end}}

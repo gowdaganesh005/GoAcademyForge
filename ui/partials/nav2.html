@@ -1,0 +1,16 @@
+{{define "nav2"}}
+<nav>
+    <div>
+        
+        
+        {{if .Isauthy}}
+        <a href="/test/create">Create Tests</a>
+        <a href="/reminder/create"> Create Reminders</a>
+        <a href="/expense/create">Create Expenses</a>
+        <a href="/attendance/create">Create Attendance</a>
+        <a href="/attendance/create">Update Attendance</a>
+        {{end}}
+    </div>
+
+</nav>
+{{end}}

@@ -18,7 +18,7 @@
         <td><a href='/test/view/{{.ID}}'>{{.Subject}}</a></td> 
         <td>{{.Marks}}</td> 
         <td>{{.Totalmarks}}</td>
-        <td>{{.Testtype}}</td> 
+        <td>{{if eq .Testtype 1}}CIE 1{{else}}{{if eq .Testtype 2}}CIE 2{{else}}{{if eq .Testtype 3}}AAT{{else}}{{if eq .Testtype 4}}SEE{{end}}{{end}}{{end}}{{end}}</td> 
     </tr> 
     {{end}} 
 </table> 

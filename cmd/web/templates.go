@@ -14,6 +14,23 @@ type templateData struct {
 	Tests       []*models.Test
 	CurrentYear int
 	Form        any
+	Flash       string
+	//reminders
+	Reminder  *models.Reminder
+	Reminders []*models.Reminder
+
+	//expenses
+	Expense  *models.Expense
+	Expenses []*models.Expense
+
+	//attendance
+	Attendance    *models.Attendance
+	Attendances   []*models.Attendance
+	AttPercentage int
+	AttRemarks    string
+
+	//authentication
+	Isauthy bool
 }
 
 func newtemplateCache() (map[string]*template.Template, error) {
@@ -27,6 +44,7 @@ func newtemplateCache() (map[string]*template.Template, error) {
 
 		files := []string{
 			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\partials\\nav.html",
+			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\partials\\nav2.html",
 			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\html\\pages\\base.html",
 			page,
 		}

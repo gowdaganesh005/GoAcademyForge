@@ -1,0 +1,26 @@
+{{define "title"}}Create a new Test{{end}}
+{{define "main"}}
+<form action="/attendance/update" method="post" novalidate>
+    <div>
+        <label >Subject:</label>
+        <select name="subject">
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            
+        </select>
+    </div>
+    <div><label >Attended</label>
+        
+        <input type='radio' name='Attended' value='true'> Attended 
+        <input type='radio' name='Attended' value='false'> Not Attended
+       
+        </div>
+        
+    
+
+<div>
+    <input type="submit" value="Update">
+</div>
+</form>
+{{end}}

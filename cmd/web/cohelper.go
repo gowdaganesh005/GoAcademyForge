@@ -19,3 +19,13 @@ func testRemarks(p float32) string {
 	}
 	return remarks
 }
+
+func attendanceRemarks(p int) string {
+	var remarks string
+	if p >= 75 {
+		remarks = "Sufficent"
+	} else {
+		remarks = "Shortage"
+	}
+	return remarks
+}

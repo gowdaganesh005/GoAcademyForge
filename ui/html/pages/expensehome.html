@@ -1,0 +1,35 @@
+{{define "title"}}Expenses Home{{end}}
+
+
+{{define "main"}}
+
+
+<h2>Your Expenses</h2> 
+{{if .Expenses}} 
+ <table> 
+    <tr> 
+        <th>ID</th> 
+        <th>Category</th> 
+        <th>Description</th> 
+        <th>Amount</th> 
+        <th>Date</th>
+    </tr> 
+    {{range .Expenses}} 
+    <tr> 
+        <td><a href='/expense/view/{{.ID}}'>{{.ID}}</a></td> 
+        <td><a href='/expense/view/{{.ID}}'>{{.Category}}</a></td> 
+        {{if  .Description.Valid }}
+        <td>{{.Description}}</td> 
+        {{else}}
+        <td>Nil</td> 
+        {{end}}
+        <td>{{.Amount}}</td>
+        <td>{{.Date}}</td>
+        
+    </tr> 
+    {{end}} 
+</table> 
+{{else}} 
+    <p>There's nothing to see here... yet!</p> 
+{{end}} 
+{{end}}

@@ -1,0 +1,22 @@
+{{define "title"}}Create a new Reminder{{end}}
+{{define "main"}}
+<form action="/reminder/create" method="post" novalidate>
+    <div>
+        <label >Title:</label>
+        {{with .Form.FieldErrors.title}} 
+            <label class='error'>{{.}}</label> 
+        {{end}} 
+        <textarea name="title" ></textarea>
+    </div>
+    <div>
+        <label >Deadline:</label>
+        <input type="datetime-local" name="deadline" >
+
+    </div>
+   
+
+<div>
+    <input type="submit" value="Create Reminder">
+</div>
+</form>
+{{end}}
