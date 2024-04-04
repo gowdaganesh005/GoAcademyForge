@@ -19,7 +19,7 @@ This backend is developed using GO language also called as Golang Technically th
 
 
 
-4.Then Visit to "http://localhost:4000" in your browser to see the app running\n
+4.Then Visit to "http://localhost:4000/about" in your browser to see the app running\n
 
 
 Try to setup and make a login account\n
