@@ -394,7 +394,7 @@ func (app *application) attendanceUpdatePost(w http.ResponseWriter, r *http.Requ
 		app.sessionManager.Put(r.Context(), "flash", "Subject does not exists Create the subject here !")
 		http.Redirect(w, r, fmt.Sprint("/attendance/create/"), http.StatusSeeOther)
 	}
-	app.sessionManager.Put(r.Context(), "flash", "Subject  successfully added!")
+
 	http.Redirect(w, r, fmt.Sprintf("/attendance/view/%d", id), http.StatusSeeOther)
 
 }
