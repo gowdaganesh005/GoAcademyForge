@@ -18,8 +18,8 @@
     <tr> 
         <td><a href='/expense/view/{{.ID}}'>{{.ID}}</a></td> 
         <td><a href='/expense/view/{{.ID}}'>{{.Category}}</a></td> 
-        {{if  .Description.Valid }}
-        <td>{{.Description}}</td> 
+        {{if  .Description }}
+        <td>{{.Description.String}}</td> 
         {{else}}
         <td>Nil</td> 
         {{end}}
@@ -29,7 +29,7 @@
     </tr> 
     {{end}} 
 </table>
-<pre><code>This Month Total  :  <strong>₹{{.Total}}</strong></code></pre>  
+<h1><pre><code>This Month Total  :  <strong>₹{{.Total}}</strong></code></pre> </h1> 
 {{else}} 
     <p>There's nothing to see here... yet!</p> 
 {{end}} 

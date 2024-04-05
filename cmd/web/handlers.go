@@ -215,6 +215,7 @@ func (app *application) remindercreatePost(w http.ResponseWriter, r *http.Reques
 		app.serverError(w, err)
 		return
 	}
+	app.sessionManager.Put(r.Context(), "flash", "Reminder successfully created!")
 	http.Redirect(w, r, fmt.Sprintf("/reminder/view/%d", id), http.StatusSeeOther)
 
 }
@@ -283,6 +284,7 @@ func (app *application) expensecreatePost(w http.ResponseWriter, r *http.Request
 		app.serverError(w, err)
 		return
 	}
+	app.sessionManager.Put(r.Context(), "flash", "Expense successfully created!")
 	http.Redirect(w, r, fmt.Sprintf("/expense/view/%d", id), http.StatusSeeOther)
 
 }
@@ -316,7 +318,7 @@ func (app *application) attendanceView(w http.ResponseWriter, r *http.Request) {
 	data := app.newtemplatedata(r)
 	data.Attendance = test
 
-	remarks := attendanceRemarks(data.Percentage)
+	remarks := attendanceRemarks(test.Percentage)
 	data.AttRemarks = remarks
 
 	app.render(w, http.StatusOK, "attendanceview.html", data)
@@ -352,8 +354,9 @@ func (app *application) attendancecreatePost(w http.ResponseWriter, r *http.Requ
 
 	id, err := app.attendance.Insert(form.Subject, form.Attended, form.Totalclasses)
 	if err != nil {
-		app.serverError(w, err)
-		return
+		app.sessionManager.Put(r.Context(), "flash", "Subject already exists")
+		http.Redirect(w, r, fmt.Sprintf("/attendance/home"), http.StatusSeeOther)
+
 	}
 	http.Redirect(w, r, fmt.Sprintf("/attendance/view/%d", id), http.StatusSeeOther)
 
@@ -388,9 +391,10 @@ func (app *application) attendanceUpdatePost(w http.ResponseWriter, r *http.Requ
 
 	id, err := app.attendance.Update(form.Subject, form.Attended)
 	if err != nil {
-		app.serverError(w, err)
-		return
+		app.sessionManager.Put(r.Context(), "flash", "Subject does not exists Create the subject here !")
+		http.Redirect(w, r, fmt.Sprint("/attendance/create/"), http.StatusSeeOther)
 	}
+	app.sessionManager.Put(r.Context(), "flash", "Subject  successfully added!")
 	http.Redirect(w, r, fmt.Sprintf("/attendance/view/%d", id), http.StatusSeeOther)
 
 }
