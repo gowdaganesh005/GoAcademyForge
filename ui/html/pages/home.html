@@ -2,7 +2,19 @@
 
 
 {{define "main"}}
-<h1>Home</h1> 
-<h2>Please login via using email </h2>
+<h4>Home</h4> 
+<h1>Welcome to the Academy Forge </h1>
+<p>This is the one point solution to the student problem and This is where you can always monitor your performance and Make your Life Easy</p>
+<h1> Features</h1>
+<p>1.Test Corner </p>
+<p>2.Reminder Corner </p>
+<p>3.Expense Corner </p>
+<p>4.Attendance Corner </p>
+
+<h1>Make your college Life simple and easy</h1>
+
+{{if not .Isauthy}}
+<h1>Please Login or SignUp  using email </h1>
+{{end}}
 
 {{end}}

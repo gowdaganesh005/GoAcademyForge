@@ -11,6 +11,7 @@ type Attendance struct {
 	Subject      string
 	Attended     int
 	TotalClasses int
+	Percentage   float32
 	UpdatedAt    time.Time
 }
 type AtModel struct {
@@ -18,7 +19,7 @@ type AtModel struct {
 }
 
 func (t *AtModel) Insert(subject string, attended int, totalclasses int) (int, error) {
-	stmt := "INSERT INTO attendance (subject,attended,totalclasses) VALUES(?,?,?)"
+	stmt := "INSERT INTO attendance (subject,attended,totalclasses,percentage) VALUES(?,?,?,case when totalclasses=0 then 0 else (attended*100)/totalclasses end)"
 	result, err := t.DB.Exec(stmt, subject, attended, totalclasses)
 	if err != nil {
 		return 0, err
@@ -34,7 +35,7 @@ func (t *AtModel) Get(id int) (*Attendance, error) {
 	stmt := "SELECT * FROM attendance where id=?"
 	row := t.DB.QueryRow(stmt, id)
 	te := &Attendance{}
-	err := row.Scan(&te.ID, &te.Subject, &te.Attended, &te.TotalClasses, &te.UpdatedAt)
+	err := row.Scan(&te.ID, &te.Subject, &te.Attended, &te.TotalClasses, &te.Percentage, &te.UpdatedAt)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrnoRecord
@@ -57,7 +58,7 @@ func (t *AtModel) Latest() ([]*Attendance, error) {
 
 	for rows.Next() {
 		s := &Attendance{}
-		err := rows.Scan(&s.ID, &s.Subject, &s.Attended, &s.TotalClasses, &s.UpdatedAt)
+		err := rows.Scan(&s.ID, &s.Subject, &s.Attended, &s.TotalClasses, &s.Percentage, &s.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -71,14 +72,14 @@ func (t *AtModel) Latest() ([]*Attendance, error) {
 }
 func (t *AtModel) Update(subject string, attended bool) (int, error) {
 	if attended {
-		stmt := "UPDATE attendance SET  attended=attended+1, totalclasses=totalclasses+1, updated_at=CURRENT_TIMESTAMP WHERE subject=?"
+		stmt := "UPDATE attendance SET  attended=attended+1, totalclasses=totalclasses+1,percentage=case when totalclasses=0 then 0 else (attended*100)/totalclasses end, updatedat=CURRENT_TIMESTAMP WHERE subject=?"
 		_, err := t.DB.Exec(stmt, subject)
 		if err != nil {
 			return 0, err
 		}
 
 	} else {
-		stmt := "UPDATE attendance SET   totalclasses=totalclasses+1, updated_at=CURRENT_TIMESTAMP WHERE subject=?"
+		stmt := "UPDATE attendance SET   totalclasses=totalclasses+1,percentage=case when totalclasses=0 then 0 else (attended*100)/totalclasses end, updatedat=CURRENT_TIMESTAMP WHERE subject=?"
 		_, err := t.DB.Exec(stmt, subject)
 		if err != nil {
 			return 0, err

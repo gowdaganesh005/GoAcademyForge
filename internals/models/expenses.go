@@ -16,7 +16,7 @@ type ExpModel struct {
 	DB *sql.DB
 }
 
-func (t *ExpModel) Insert(category string, description sql.NullString, amount float32, date string) (int, error) {
+func (t *ExpModel) Insert(category string, description string, amount float32, date string) (int, error) {
 	stmt := "INSERT INTO expenses (category,description,amount,date) VALUES(?,?,?,TIMESTAMP(?))"
 	result, err := t.DB.Exec(stmt, category, description, amount, date)
 	if err != nil {
@@ -66,5 +66,16 @@ func (t *ExpModel) Latest() ([]*Expense, error) {
 		return nil, err
 	}
 	return tests, nil
+
+}
+func (t *ExpModel) TotalMonthly() (float32, error) {
+
+	stmt := "SELECT SUM(amount) AS total from expenses where year(date)=year(current_date()) and month(date)=month(current_date())"
+	var total float32
+	err := t.DB.QueryRow(stmt).Scan(&total)
+	if err != nil {
+		return 0, err
+	}
+	return total, nil
 
 }

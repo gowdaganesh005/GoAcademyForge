@@ -7,7 +7,7 @@
             <strong>Category   :         {{.Category}}</strong> 
             <span>{{.ID}}</span> 
         </div> 
-        <pre><code>Description:<strong> {{if  .Description.Valid }}<td>{{.Description}}</td> {{else}}<td>Nil</td> {{end}}</strong></code></pre> 
+        <pre><code>Description:<strong>{{if .Description}} {{.Description.String}}</td> {{else}}<td>Nil</td> {{end}}</strong></code></pre> 
         <pre><code>Amount     :<strong> {{.Amount}}</strong></code></pre>
         
          
