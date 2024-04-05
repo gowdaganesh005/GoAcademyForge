@@ -49,6 +49,7 @@
 ###### 1.Go's built-in web server capabilities make it simpler to create standalone web applications that can handle production level traffic without relying on external servers like ngnix,Apache.That is Go doesnt need to be relient on any other frame works evn for the production level hosting one single exe file can turn the server to Upscale
 ###### 2.Concurrency using GO also makes it possible to use concurrent routine for each web request and is much faster than other languages even when load increases significnatly
 ###### 3.Sessions Management In this app to achieve the login and signup  capability of the app It  uses session manager to maintain the http context 
+###### 4.Hashing The password , the password that is used by the user is not stored as a simple text and is encrypted using bcrypt hashing and hence even though if any attack  occurs in database we need not to worry as decrypting them really a high cost and passwords are  secure
 ###### 4.Flag support for the port on which it has to run and dsn of the database by default the app run on port :4000 but this is not fixed and hence we can change the port like this 
 ```
 go run . -addr:":9000"
