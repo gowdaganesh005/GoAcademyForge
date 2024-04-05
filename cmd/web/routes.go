@@ -12,6 +12,7 @@ func (app *application) routes() http.Handler {
 	fileserver := http.FileServer(http.Dir("C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\static\\"))
 
 	router.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileserver))
+	router.Handler(http.MethodGet, "/", app.sessionManager.LoadAndSave(http.HandlerFunc(app.about)))
 	router.Handler(http.MethodGet, "/about", app.sessionManager.LoadAndSave(http.HandlerFunc(app.about)))
 	router.Handler(http.MethodGet, "/user/signup", app.sessionManager.LoadAndSave(http.HandlerFunc(app.userSignup)))
 	router.Handler(http.MethodPost, "/user/signup", app.sessionManager.LoadAndSave(http.HandlerFunc(app.userSignupPost)))

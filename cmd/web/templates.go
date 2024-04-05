@@ -22,11 +22,11 @@ type templateData struct {
 	//expenses
 	Expense  *models.Expense
 	Expenses []*models.Expense
+	Total    float32
 
 	//attendance
 	Attendance    *models.Attendance
 	Attendances   []*models.Attendance
-	AttPercentage int
 	AttRemarks    string
 
 	//authentication
@@ -35,7 +35,7 @@ type templateData struct {
 
 func newtemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
-	pages, err := filepath.Glob("C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\html\\pages\\*.html")
+	pages, err := filepath.Glob("C:\\Users\\gowda\\Desktop\\GoAcademyForge\\ui\\html\\pages\\*.html")
 	if err != nil {
 		return nil, err
 	}
@@ -43,9 +43,9 @@ func newtemplateCache() (map[string]*template.Template, error) {
 		name := filepath.Base(page)
 
 		files := []string{
-			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\partials\\nav.html",
-			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\partials\\nav2.html",
-			"C:\\Users\\gowda\\Desktop\\GO-project\\GoAcademyForge\\ui\\html\\pages\\base.html",
+			"C:\\Users\\gowda\\Desktop\\GoAcademyForge\\ui\\partials\\nav.html",
+			"C:\\Users\\gowda\\Desktop\\GoAcademyForge\\ui\\partials\\nav2.html",
+			"C:\\Users\\gowda\\Desktop\\GoAcademyForge\\ui\\html\\pages\\base.html",
 			page,
 		}
 		ts, err := template.ParseFiles(files...)

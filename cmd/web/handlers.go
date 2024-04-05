@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"errors"
 	"fmt"
 	"net/http"
@@ -28,21 +27,22 @@ type remindercreateForm struct {
 }
 
 type expensecreateForm struct {
-	Category            string         `form:"category"`
-	Description         sql.NullString `form:"description"`
-	Amount              float32        `form:"amount"`
-	Date                string         `form:"date"`
+	Category            string `form:"category"`
+	Description         string
+	Amount              float32 `form:"amount"`
+	Date                string  `form:"date"`
 	validator.Validator `form:"-"`
 }
 type attendanceform struct {
-	Subject             string `form:"subject"`
-	Attended            int    `form:"attended"`
-	Totalclasses        int    `form:"totalclasses"`
+	Subject      string `form:"subject"`
+	Attended     int    `form:"attended"`
+	Totalclasses int    `form:"totalclasses"`
+
 	validator.Validator `form:"-"`
 }
 type attendanceupdateForm struct {
 	Subject  string `form:"subject"`
-	Attended bool   `form:"attended"`
+	Attended bool
 }
 
 type userSignupform struct {
@@ -251,6 +251,12 @@ func (app *application) expensehome(w http.ResponseWriter, r *http.Request) {
 	}
 	data := app.newtemplatedata(r)
 	data.Expenses = tests
+	data.Total, err = app.expense.TotalMonthly()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	app.render(w, http.StatusOK, "expensehome.html", data)
 
 }
@@ -267,6 +273,8 @@ func (app *application) expensecreatePost(w http.ResponseWriter, r *http.Request
 		app.clientError(w, http.StatusBadRequest)
 		return
 	}
+	desc := r.PostForm.Get("description")
+	form.Description = desc
 
 	form.CheckField(validator.Notless(0, int(form.Amount)), "amount", "This Field cannot be 0")
 
@@ -307,13 +315,8 @@ func (app *application) attendanceView(w http.ResponseWriter, r *http.Request) {
 	}
 	data := app.newtemplatedata(r)
 	data.Attendance = test
-	if test.TotalClasses != 0 {
-		data.AttPercentage = ((test.Attended / test.TotalClasses) * 100)
-	} else {
-		data.AttPercentage = 0
-	}
 
-	remarks := attendanceRemarks(data.AttPercentage)
+	remarks := attendanceRemarks(data.Percentage)
 	data.AttRemarks = remarks
 
 	app.render(w, http.StatusOK, "attendanceview.html", data)
@@ -376,6 +379,12 @@ func (app *application) attendanceUpdatePost(w http.ResponseWriter, r *http.Requ
 		app.clientError(w, http.StatusBadRequest)
 		return
 	}
+	att := r.PostForm.Get("Attended")
+	if att == "true" {
+		form.Attended = true
+	} else {
+		form.Attended = false
+	}
 
 	id, err := app.attendance.Update(form.Subject, form.Attended)
 	if err != nil {
@@ -434,7 +443,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	
+
 	app.sessionManager.Put(r.Context(), "flash", "Your signup was successful. Please log in.")
 	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 
